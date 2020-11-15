@@ -16,8 +16,8 @@
     ]);
     echo $this->Form->hidden('is_deleted', ['value' => 0]);
     ?>
-    <p>パスワードの変更は<?= $this->Html->link('こちら', ['controller' => 'Users', 'action' => 'setpassword', $user->id]) ?></p>
-    <p>画像の変更は<?= $this->Html->link('こちら', ['controller' => 'Users', 'action' => 'setimage', $user->id]) ?></p>
+    <p>パスワードの変更は<?= $this->Html->link('こちら', ['controller' => 'Users', 'action' => 'setpassword']) ?></p>
+    <p>画像の変更は<?= $this->Html->link('こちら', ['controller' => 'Users', 'action' => 'setimage']) ?></p>
 </fieldset>
 <?= $this->Form->button(__('Submit')) ?>
 <?= $this->Form->end() ?>

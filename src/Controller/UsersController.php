@@ -56,7 +56,7 @@ class UsersController extends AppController
      */
     public function view($id = null)
     {
-        $user = $this->Users->get($id);
+        $user = $this->Users->get($this->Auth->user('id'));
 
         $this->set(compact('user'));
     }
@@ -89,7 +89,7 @@ class UsersController extends AppController
      */
     public function edit($id = null)
     {
-        $user = $this->Users->get($id);
+        $user = $this->Users->get($this->Auth->user('id'));
         if ($this->request->is(['patch', 'post', 'put'])) {
             $user = $this->Users->patchEntity($user, $this->request->getData());
             if ($this->Users->save($user)) {
@@ -124,7 +124,7 @@ class UsersController extends AppController
 
     public function setpassword($id = null)
     {
-        $user = $this->Users->get($id);
+        $user = $this->Users->get($this->Auth->user('id'));
         if ($this->request->is(['patch', 'post', 'put'])) {
             $user = $this->Users->patchEntity($user, $this->request->getData());
             if ($this->Users->save($user)) {
@@ -139,7 +139,7 @@ class UsersController extends AppController
 
     public function setimage($id = null)
     {
-        $user = $this->Users->get($id);
+        $user = $this->Users->get($this->Auth->user('id'));
         if ($this->request->is(['patch', 'post', 'put'])) {
             $request_data = $this->request->getData();
             $request_file = $this->request->getData('image');
@@ -155,7 +155,7 @@ class UsersController extends AppController
             $this->Users->save($user);
             $this->Flash->success(__('画像を変更しました。'));
 
-            return $this->redirect(['controller' => 'Users', 'action' => 'view', $user['id']]);
+            return $this->redirect(['controller' => 'Users', 'action' => 'view']);
         }
         $this->set(compact('user'));
     }

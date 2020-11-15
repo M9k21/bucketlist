@@ -12,4 +12,4 @@
 </fieldset>
 <?= $this->Form->button(__('Submit')) ?>
 <?= $this->Form->end() ?>
-<?= $this->Html->link(__('戻る'), ['controller' => 'Users', 'action' => 'edit', $user->id]) ?>
+<?= $this->Html->link(__('戻る'), ['controller' => 'Users', 'action' => 'edit']) ?>
