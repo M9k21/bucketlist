@@ -121,4 +121,19 @@ class UsersController extends AppController
 
         return $this->redirect(['action' => 'index']);
     }
+
+    public function setpassword($id = null)
+    {
+        $user = $this->Users->get($id);
+        if ($this->request->is(['patch', 'post', 'put'])) {
+            $user = $this->Users->patchEntity($user, $this->request->getData());
+            if ($this->Users->save($user)) {
+                $this->Flash->success(__('設定の変更が完了しました'));
+
+                return $this->redirect(['controller' => 'Bucketlist', 'action' => 'index']);
+            }
+            $this->Flash->error(__('入力内容をもう一度ご確認ください。'));
+        }
+        $this->set(compact('user'));
+    }
 }
