@@ -1,4 +1,5 @@
 <?php
+
 namespace App\Controller;
 
 use App\Controller\AppController;
@@ -12,6 +13,28 @@ use App\Controller\AppController;
  */
 class UsersController extends AppController
 {
+
+    // ログイン処理
+    public function login()
+    {
+        // POST時の処理
+        if ($this->request->is('post')) {
+            $user = $this->Auth->identify();
+            // Authのidentifyをユーザーに設定
+            if (!empty($user)) {
+                $this->Auth->setUser($user);
+                return $this->redirect($this->Auth->redirectUrl());
+            }
+            $this->Flash->error('メールアドレスかパスワードが間違っています。');
+        }
+    }
+
+    // ログアウト処理
+    public function logout()
+    {
+        return $this->redirect($this->Auth->logout());
+    }
+
     /**
      * Index method
      *
