@@ -56,11 +56,9 @@ class UsersController extends AppController
      */
     public function view($id = null)
     {
-        $user = $this->Users->get($id, [
-            'contain' => ['Bucketlist'],
-        ]);
+        $user = $this->Users->get($id);
 
-        $this->set('user', $user);
+        $this->set(compact('user'));
     }
 
     /**
