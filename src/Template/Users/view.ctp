@@ -19,7 +19,7 @@
     </tr>
     <tr>
         <th scope="row"><?= __('リストの公開') ?></th>
-        <td><?= $user->private ? __('Yes') : __('No'); ?></td>
+        <td><?= $user->private ? __('非公開') : __('公開'); ?></td>
     </tr>
 </table>
 
