@@ -136,4 +136,27 @@ class UsersController extends AppController
         }
         $this->set(compact('user'));
     }
+
+    public function setimage($id = null)
+    {
+        $user = $this->Users->get($id);
+        if ($this->request->is(['patch', 'post', 'put'])) {
+            $request_data = $this->request->getData();
+            $request_file = $this->request->getData('image');
+            if (!empty($request_file['name'])) {
+                // ファイル名変更
+                $request_data['image'] = date('YmdHis') . $request_file['name'];
+                // ファイル保存
+                $filePath = WWW_ROOT . DS . 'img' . DS . 'userimage' . DS . $request_data['image'];
+                move_uploaded_file($request_file['tmp_name'], $filePath);
+            }
+            // ユーザー情報の更新
+            $user = $this->Users->patchEntity($user, $request_data);
+            $this->Users->save($user);
+            $this->Flash->success(__('画像を変更しました。'));
+
+            return $this->redirect(['controller' => 'Users', 'action' => 'view', $user['id']]);
+        }
+        $this->set(compact('user'));
+    }
 }
