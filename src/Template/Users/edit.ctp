@@ -1,36 +1,23 @@
-<?php
-/**
- * @var \App\View\AppView $this
- * @var \App\Model\Entity\User $user
- */
-?>
-<nav class="large-3 medium-4 columns" id="actions-sidebar">
-    <ul class="side-nav">
-        <li class="heading"><?= __('Actions') ?></li>
-        <li><?= $this->Form->postLink(
-                __('Delete'),
-                ['action' => 'delete', $user->id],
-                ['confirm' => __('Are you sure you want to delete # {0}?', $user->id)]
-            )
-        ?></li>
-        <li><?= $this->Html->link(__('List Users'), ['action' => 'index']) ?></li>
-        <li><?= $this->Html->link(__('List Bucketlist'), ['controller' => 'Bucketlist', 'action' => 'index']) ?></li>
-        <li><?= $this->Html->link(__('New Bucketlist'), ['controller' => 'Bucketlist', 'action' => 'add']) ?></li>
-    </ul>
-</nav>
-<div class="users form large-9 medium-8 columns content">
-    <?= $this->Form->create($user) ?>
-    <fieldset>
-        <legend><?= __('Edit User') ?></legend>
-        <?php
-            echo $this->Form->control('username');
-            echo $this->Form->control('password');
-            echo $this->Form->control('email');
-            echo $this->Form->control('image');
-            echo $this->Form->control('private');
-            echo $this->Form->control('is_deleted');
-        ?>
-    </fieldset>
-    <?= $this->Form->button(__('Submit')) ?>
-    <?= $this->Form->end() ?>
-</div>
+<?= $this->Form->create($user) ?>
+<fieldset>
+    <legend><?= __('アカウント情報の変更') ?></legend>
+    <?php
+    echo $this->Form->control('username');
+    echo $this->Form->hidden('password', ['value' => $user->password]);
+    echo $this->Form->control('email');
+    echo $this->Form->hidden('image', ['value' => $user->image]);
+    echo $this->Form->control('private', [
+        'type' => 'radio',
+        'options' => [
+            [0 => '公開'],
+            [1 => '非公開'],
+        ],
+        'label' => 'リストを公開しますか？',
+    ]);
+    echo $this->Form->hidden('is_deleted', ['value' => 0]);
+    ?>
+    <p>パスワードの変更は<?= $this->Html->link('こちら', ['controller' => 'Users', 'action' => 'setpassword', $user->id]) ?></p>
+    <p>画像の変更は<?= $this->Html->link('こちら', ['controller' => 'Users', 'action' => 'setimage', $user->id]) ?></p>
+</fieldset>
+<?= $this->Form->button(__('Submit')) ?>
+<?= $this->Form->end() ?>
