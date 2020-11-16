@@ -35,6 +35,56 @@ class BucketlistController extends AppController
         $this->set(compact('bucketlist'));
     }
 
+    public function collect($username = null)
+    {
+        // usernameの取得
+        $username = $this->request->getParam('username');
+        $user = $this->Users->find('all', [
+            'conditions' => [
+                'and' => [
+                    'username' => $username,
+                    'is_deleted' => 0
+                ]
+            ]
+        ])->toArray();
+        if (empty($user)) {
+            $this->Flash->error(__('指定されたリストは存在しません。'));
+            return $this->redirect(['action' => 'index']);
+        } else {
+            if ($user[0]->id !== $this->Auth->user('id') && $user[0]->private) {
+                $this->Flash->error(__('指定されたリストは非公開のため表示できません。'));
+                return $this->redirect(['action' => 'index']);
+            }
+        }
+        // リストの取得
+        $listitems = $this->Bucketlist->find('all', [
+            'conditions' => [
+                'and' => [
+                    'username' => $username,
+                    'Bucketlist.is_deleted' => 0
+                ]
+            ],
+            'contain' => ['Users'],
+            'order' => ['Bucketlist.created' => 'asc'],
+        ]);
+        // リスト項目の集計
+        $listitem_count = $listitems->count();
+        // リスト項目の登録
+        $add_listitem = $this->Bucketlist->newEntity();
+        if ($username === $this->Auth->user('username')) {
+            if ($this->request->is('post')) {
+                $add_listitem = $this->Bucketlist->patchEntity($add_listitem, $this->request->getData());
+                if ($this->Bucketlist->save($add_listitem)) {
+                    $this->Flash->success(__('リスト項目を追加しました。'));
+                    return $this->redirect(['action' => 'collect', 'username' => $this->Auth->user('username')]);
+                } else {
+                    $this->Flash->error(__('リスト項目の追加に失敗しました。もう一度ご入力ください。'));
+                }
+            }
+        }
+        $this->set(compact('username', 'listitems', 'listitem_count', 'add_listitem',));
+    }
+
     /**
      * View method
      *
