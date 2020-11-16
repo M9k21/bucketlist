@@ -98,7 +98,7 @@ class BucketlistController extends AppController
             'contain' => ['Users'],
         ]);
 
-        $this->set('bucketlist', $bucketlist);
+        $this->set(compact('bucketlist'));
     }
 
     /**
