@@ -77,7 +77,7 @@ class BucketlistController extends AppController
             }
         }
         // リストの取得
-        $listitems = $this->Bucketlist->find('all', [
+        $bucketlists = $this->Bucketlist->find('all', [
             'conditions' => [
                 'and' => [
                     'username' => $username,
@@ -88,13 +88,13 @@ class BucketlistController extends AppController
             'order' => ['Bucketlist.created' => 'asc'],
         ]);
         // リスト項目の集計
-        $listitem_count = $listitems->count();
+        $bucketlist_count = $bucketlists->count();
         // リスト項目の登録
-        $add_listitem = $this->Bucketlist->newEntity();
+        $add_bucketlist = $this->Bucketlist->newEntity();
         if ($username === $this->Auth->user('username')) {
             if ($this->request->is('post')) {
-                $add_listitem = $this->Bucketlist->patchEntity($add_listitem, $this->request->getData());
-                if ($this->Bucketlist->save($add_listitem)) {
+                $add_bucketlist = $this->Bucketlist->patchEntity($add_bucketlist, $this->request->getData());
+                if ($this->Bucketlist->save($add_bucketlist)) {
                     $this->Flash->success(__('リスト項目を追加しました。'));
                     return $this->redirect(['action' => 'collect', 'username' => $this->Auth->user('username')]);
                 } else {
@@ -102,7 +102,7 @@ class BucketlistController extends AppController
                 }
             }
         }
-        $this->set(compact('username', 'listitems', 'listitem_count', 'add_listitem',));
+        $this->set(compact('username', 'bucketlists', 'bucketlist_count', 'add_bucketlist',));
     }
 
     public function complete($id = null)
