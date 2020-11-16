@@ -1,4 +1,5 @@
 <?php
+
 namespace App\Controller;
 
 use App\Controller\AppController;
@@ -12,6 +13,13 @@ use App\Controller\AppController;
  */
 class BucketlistController extends AppController
 {
+    public function initialize()
+    {
+        parent::initialize();
+        $this->loadModel('Users');
+        $this->set('authuser', $this->Auth->user());
+    }
+
     /**
      * Index method
      *
