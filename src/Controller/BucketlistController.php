@@ -155,14 +155,13 @@ class BucketlistController extends AppController
      */
     public function delete($id = null)
     {
-        $this->request->allowMethod(['post', 'delete']);
         $bucketlist = $this->Bucketlist->get($id);
-        if ($this->Bucketlist->delete($bucketlist)) {
-            $this->Flash->success(__('The bucketlist has been deleted.'));
-        } else {
-            $this->Flash->error(__('The bucketlist could not be deleted. Please, try again.'));
+        $bucketlist->is_deleted = 1;
+        $bucketlist = $this->Bucketlist->patchEntity($bucketlist, $this->request->getData());
+        if ($this->Bucketlist->save($bucketlist)) {
+            $this->Flash->success(__('リスト項目を削除しました。'));
+            return $this->redirect(['action' => 'collect', 'username' => $this->Auth->user('username')]);
         }
-
-        return $this->redirect(['action' => 'index']);
+        $this->Flash->error(__('リスト項目の削除に失敗しました。'));
     }
 }
