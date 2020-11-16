@@ -85,6 +85,20 @@ class BucketlistController extends AppController
         $this->set(compact('username', 'listitems', 'listitem_count', 'add_listitem',));
     }
 
+    public function complete($id = null)
+    {
+        $bucketlist = $this->Bucketlist->get($id);
+        if (empty($bucketlist->completed)) {
+            // リストの達成
+            $bucketlist->completed = new \DateTime('now');
+        } else {
+            // リスト達成の取り消し
+            $bucketlist->completed = null;
+        }
+        $this->Bucketlist->save($bucketlist);
+        return $this->redirect(['action' => 'collect', 'username' => $this->Auth->user('username')]);
+    }
+
     /**
      * View method
      *
