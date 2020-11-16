@@ -27,12 +27,32 @@ class BucketlistController extends AppController
      */
     public function index()
     {
-        $this->paginate = [
-            'contain' => ['Users'],
-        ];
-        $bucketlist = $this->paginate($this->Bucketlist);
+        // 公開のuserを取得
+        $public_users = $this->Users->find('all', [
+            'conditions' => [
+                'and' => [
+                    'private' => 0,
+                    'is_deleted' => 0
+                ]
+            ]
+        ]);
 
-        $this->set(compact('bucketlist'));
+        // 各ユーザーの最新達成リストを取得
+        foreach ($public_users as $public_user) {
+            $new_bucketlists[] = $this->Bucketlist->find('all', [
+                'conditions' => [
+                    'and' => [
+                        'user_id' => $public_user->id,
+                        'completed IS NOT NULL',
+                        'Bucketlist.is_deleted' => 0
+                    ]
+                ],
+                'contain' => ['Users'],
+                'order' => ['completed' => 'desc'],
+            ])->first();
+        }
+
+        $this->set(compact('new_bucketlists'));
     }
 
     public function collect($username = null)

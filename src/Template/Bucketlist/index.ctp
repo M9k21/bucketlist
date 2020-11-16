@@ -1,61 +1,14 @@
-<?php
-/**
- * @var \App\View\AppView $this
- * @var \App\Model\Entity\Bucketlist[]|\Cake\Collection\CollectionInterface $bucketlist
- */
-?>
-<nav class="large-3 medium-4 columns" id="actions-sidebar">
-    <ul class="side-nav">
-        <li class="heading"><?= __('Actions') ?></li>
-        <li><?= $this->Html->link(__('New Bucketlist'), ['action' => 'add']) ?></li>
-        <li><?= $this->Html->link(__('List Users'), ['controller' => 'Users', 'action' => 'index']) ?></li>
-        <li><?= $this->Html->link(__('New User'), ['controller' => 'Users', 'action' => 'add']) ?></li>
-    </ul>
-</nav>
-<div class="bucketlist index large-9 medium-8 columns content">
-    <h3><?= __('Bucketlist') ?></h3>
-    <table cellpadding="0" cellspacing="0">
-        <thead>
-            <tr>
-                <th scope="col"><?= $this->Paginator->sort('id') ?></th>
-                <th scope="col"><?= $this->Paginator->sort('user_id') ?></th>
-                <th scope="col"><?= $this->Paginator->sort('item') ?></th>
-                <th scope="col"><?= $this->Paginator->sort('detail') ?></th>
-                <th scope="col"><?= $this->Paginator->sort('created') ?></th>
-                <th scope="col"><?= $this->Paginator->sort('modified') ?></th>
-                <th scope="col"><?= $this->Paginator->sort('completed') ?></th>
-                <th scope="col"><?= $this->Paginator->sort('is_deleted') ?></th>
-                <th scope="col" class="actions"><?= __('Actions') ?></th>
-            </tr>
-        </thead>
-        <tbody>
-            <?php foreach ($bucketlist as $bucketlist): ?>
-            <tr>
-                <td><?= $this->Number->format($bucketlist->id) ?></td>
-                <td><?= $bucketlist->has('user') ? $this->Html->link($bucketlist->user->id, ['controller' => 'Users', 'action' => 'view', $bucketlist->user->id]) : '' ?></td>
-                <td><?= h($bucketlist->item) ?></td>
-                <td><?= h($bucketlist->detail) ?></td>
-                <td><?= h($bucketlist->created) ?></td>
-                <td><?= h($bucketlist->modified) ?></td>
-                <td><?= h($bucketlist->completed) ?></td>
-                <td><?= h($bucketlist->is_deleted) ?></td>
-                <td class="actions">
-                    <?= $this->Html->link(__('View'), ['action' => 'view', $bucketlist->id]) ?>
-                    <?= $this->Html->link(__('Edit'), ['action' => 'edit', $bucketlist->id]) ?>
-                    <?= $this->Form->postLink(__('Delete'), ['action' => 'delete', $bucketlist->id], ['confirm' => __('Are you sure you want to delete # {0}?', $bucketlist->id)]) ?>
-                </td>
-            </tr>
-            <?php endforeach; ?>
-        </tbody>
-    </table>
-    <div class="paginator">
-        <ul class="pagination">
-            <?= $this->Paginator->first('<< ' . __('first')) ?>
-            <?= $this->Paginator->prev('< ' . __('previous')) ?>
-            <?= $this->Paginator->numbers() ?>
-            <?= $this->Paginator->next(__('next') . ' >') ?>
-            <?= $this->Paginator->last(__('last') . ' >>') ?>
-        </ul>
-        <p><?= $this->Paginator->counter(['format' => __('Page {{page}} of {{pages}}, showing {{current}} record(s) out of {{count}} total')]) ?></p>
-    </div>
-</div>
+<h2>みんなのリストをみてみよう</h2>
+<ul>
+    <?php shuffle($new_bucketlists); ?>
+    <?php foreach ($new_bucketlists as $new_bucketlist) : ?>
+        <?php if (!empty($new_bucketlist->item)) : ?>
+            <li>
+                <?= $this->Html->image($new_bucketlist->user->image ? 'userimage' . DS . $new_bucketlist->user->image : 'userdefault.png', ['width' => 50, 'height' => 50]) ?>
+                <?= $this->Html->link($new_bucketlist->user->username, ['action' => 'collect', 'username' => $new_bucketlist->user->username]) ?>
+                <?= h($new_bucketlist->item) ?>
+            </li>
+            <hr>
+        <?php endif ?>
+    <?php endforeach; ?>
+</ul>
