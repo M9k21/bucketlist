@@ -1,35 +1,13 @@
-<?php
-/**
- * @var \App\View\AppView $this
- * @var \App\Model\Entity\Bucketlist $bucketlist
- */
-?>
-<nav class="large-3 medium-4 columns" id="actions-sidebar">
-    <ul class="side-nav">
-        <li class="heading"><?= __('Actions') ?></li>
-        <li><?= $this->Form->postLink(
-                __('Delete'),
-                ['action' => 'delete', $bucketlist->id],
-                ['confirm' => __('Are you sure you want to delete # {0}?', $bucketlist->id)]
-            )
-        ?></li>
-        <li><?= $this->Html->link(__('List Bucketlist'), ['action' => 'index']) ?></li>
-        <li><?= $this->Html->link(__('List Users'), ['controller' => 'Users', 'action' => 'index']) ?></li>
-        <li><?= $this->Html->link(__('New User'), ['controller' => 'Users', 'action' => 'add']) ?></li>
-    </ul>
-</nav>
-<div class="bucketlist form large-9 medium-8 columns content">
+<h2><?= h($bucketlist->user->username) ?> 's List</h2>
+<h3>編集する</h3>
+<fieldset>
     <?= $this->Form->create($bucketlist) ?>
-    <fieldset>
-        <legend><?= __('Edit Bucketlist') ?></legend>
-        <?php
-            echo $this->Form->control('user_id', ['options' => $users]);
-            echo $this->Form->control('item');
-            echo $this->Form->control('detail');
-            echo $this->Form->control('completed', ['empty' => true]);
-            echo $this->Form->control('is_deleted');
-        ?>
-    </fieldset>
-    <?= $this->Form->button(__('Submit')) ?>
+    <?= $this->Form->hidden('user_id', ['value' => $bucketlist->user_id]) ?>
+    <?= $this->Form->control('item', ['value' => $bucketlist->item, 'label' => 'title']) ?>
+    <?= $this->Form->textarea('detail', ['row' => 50, 'col' => 20, 'placeholder' => '実現に向けてのプランや実現した日の記録を残してみましょう！', 'label' => 'detail']) ?>
+    <?= $this->Form->hidden('is_deleted', ['value' => 0]) ?>
+    <?= $this->Form->button(__('登録')) ?>
     <?= $this->Form->end() ?>
-</div>
+</fieldset>
+<p><?= $this->Html->link('削除', ['action' => 'delete', $bucketlist->id]) ?></p>
+<p><?= $this->Html->link('戻る', ['action' => 'view', $bucketlist->id]) ?></p>

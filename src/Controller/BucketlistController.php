@@ -132,19 +132,18 @@ class BucketlistController extends AppController
     public function edit($id = null)
     {
         $bucketlist = $this->Bucketlist->get($id, [
-            'contain' => [],
+            'contain' => ['Users'],
         ]);
+
         if ($this->request->is(['patch', 'post', 'put'])) {
             $bucketlist = $this->Bucketlist->patchEntity($bucketlist, $this->request->getData());
             if ($this->Bucketlist->save($bucketlist)) {
-                $this->Flash->success(__('The bucketlist has been saved.'));
-
-                return $this->redirect(['action' => 'index']);
+                $this->Flash->success(__('リスト項目を編集しました。'));
+                return $this->redirect(['action' => 'view', $bucketlist['id']]);
             }
-            $this->Flash->error(__('The bucketlist could not be saved. Please, try again.'));
+            $this->Flash->error(__('リスト項目の編集に失敗しました。入力内容をもう一度ご確認ください。'));
         }
-        $users = $this->Bucketlist->Users->find('list', ['limit' => 200]);
-        $this->set(compact('bucketlist', 'users'));
+        $this->set(compact('bucketlist'));
     }
 
     /**
