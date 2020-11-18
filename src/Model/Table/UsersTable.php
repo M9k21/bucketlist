@@ -1,4 +1,5 @@
 <?php
+
 namespace App\Model\Table;
 
 use Cake\ORM\Query;
@@ -65,6 +66,7 @@ class UsersTable extends Table
 
         $validator
             ->scalar('password')
+            ->minLength('password', 8, '8字以上のパスワードを設定してください')
             ->maxLength('password', 100)
             ->requirePresence('password', 'create')
             ->notEmptyString('password');
@@ -73,7 +75,7 @@ class UsersTable extends Table
             ->email('email')
             ->requirePresence('email', 'create')
             ->notEmptyString('email')
-            ->add('email', 'unique', ['rule' => 'validateUnique', 'provider' => 'table']);
+            ->add('email', 'unique', ['rule' => 'validateUnique', 'provider' => 'table', 'message' => '指定されたメールアドレスは既に登録されています']);
 
         $validator
             ->scalar('image')
