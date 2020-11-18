@@ -9,7 +9,7 @@
     <p>これから実現する予定です</p>
 <?php endif; ?>
 <?php if (!empty($bucketlist->detail)) : ?>
-    <?= h($bucketlist->detail) ?>
+    <?= nl2br(h($bucketlist->detail)) ?>
 <?php else : ?>
     <p>実現に向けてのプランや実現した日の記録を残してみましょう！</p>
 <?php endif; ?>
