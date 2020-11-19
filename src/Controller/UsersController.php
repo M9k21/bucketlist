@@ -15,6 +15,12 @@ use App\Form\CustomForm;
  */
 class UsersController extends AppController
 {
+    public function initialize()
+    {
+        parent::initialize();
+        $this->loadModel('Bucketlist');
+        $this->set('authuser', $this->Auth->user());
+    }
 
     // ログイン処理
     public function login()
@@ -58,6 +64,8 @@ class UsersController extends AppController
      */
     public function view($id = null)
     {
+        $this->viewBuilder()->setLayout('bucketlist');
+
         $user = $this->Users->get($this->Auth->user('id'));
 
         $this->set(compact('user'));
@@ -91,6 +99,8 @@ class UsersController extends AppController
      */
     public function edit($id = null)
     {
+        $this->viewBuilder()->setLayout('bucketlist');
+
         $user = $this->Users->get($this->Auth->user('id'));
         if ($this->request->is(['patch', 'post', 'put'])) {
             $user = $this->Users->patchEntity($user, $this->request->getData());
@@ -126,6 +136,8 @@ class UsersController extends AppController
 
     public function setpassword($id = null)
     {
+        $this->viewBuilder()->setLayout('bucketlist');
+
         $user = $this->Users->get($this->Auth->user('id'));
         if ($this->request->is(['patch', 'post', 'put'])) {
             $user = $this->Users->patchEntity($user, $this->request->getData());
@@ -141,6 +153,8 @@ class UsersController extends AppController
 
     public function setimage($id = null)
     {
+        $this->viewBuilder()->setLayout('bucketlist');
+
         $user = $this->Users->get($this->Auth->user('id'));
         $file_upload = new CustomForm();
         if ($this->request->is(['patch', 'post', 'put'])) {

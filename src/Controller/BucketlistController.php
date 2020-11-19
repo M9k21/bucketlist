@@ -18,6 +18,7 @@ class BucketlistController extends AppController
         parent::initialize();
         $this->loadModel('Users');
         $this->set('authuser', $this->Auth->user());
+        $this->viewBuilder()->setLayout('bucketlist');
     }
 
     /**
