@@ -3,6 +3,8 @@
 namespace App\Controller;
 
 use App\Controller\AppController;
+use Cake\Datasource\ConnectionManager;
+use Exception;
 
 /**
  * Bucketlist Controller
@@ -58,6 +60,8 @@ class BucketlistController extends AppController
 
     public function collect($username = null)
     {
+        $connection = ConnectionManager::get('default');
+
         // usernameの取得
         $username = $this->request->getParam('username');
         $user = $this->Users->find('all', [
@@ -94,29 +98,42 @@ class BucketlistController extends AppController
         $add_bucketlist = $this->Bucketlist->newEntity();
         if ($username === $this->Auth->user('username')) {
             if ($this->request->is('post')) {
-                $add_bucketlist = $this->Bucketlist->patchEntity($add_bucketlist, $this->request->getData());
-                if ($this->Bucketlist->save($add_bucketlist)) {
-                    $this->Flash->success(__('リスト項目を追加しました。'));
-                    return $this->redirect(['action' => 'collect', 'username' => $this->Auth->user('username')]);
-                } else {
+                $connection->begin();
+                try {
+                    $add_bucketlist = $this->Bucketlist->patchEntity($add_bucketlist, $this->request->getData());
+                    if ($this->Bucketlist->save($add_bucketlist)) {
+                        $this->Flash->success(__('リスト項目を追加しました。'));
+                        $connection->commit();
+                        return $this->redirect(['action' => 'collect', 'username' => $this->Auth->user('username')]);
+                    }
+                } catch (Exception $e) {
                     $this->Flash->error(__('リスト項目の追加に失敗しました。もう一度ご入力ください。'));
+                    $connection->rollback();
                 }
             }
         }
-        $this->set(compact('username', 'bucketlists', 'bucketlist_count', 'add_bucketlist',));
+        $this->set(compact('username', 'bucketlists', 'bucketlist_count', 'add_bucketlist', ));
     }
 
     public function complete($id = null)
     {
-        $bucketlist = $this->Bucketlist->get($id);
-        if (empty($bucketlist->completed)) {
-            // リストの達成
-            $bucketlist->completed = new \DateTime('now');
-        } else {
-            // リスト達成の取り消し
-            $bucketlist->completed = null;
+        $connection = ConnectionManager::get('default');
+
+        $connection->begin();
+        try {
+            $bucketlist = $this->Bucketlist->get($id);
+            if (empty($bucketlist->completed)) {
+                // リストの達成
+                $bucketlist->completed = new \DateTime('now');
+            } else {
+                // リスト達成の取り消し
+                $bucketlist->completed = null;
+            }
+            $this->Bucketlist->save($bucketlist);
+            $connection->commit();
+        } catch (Exception $e) {
+            $connection->rollback();
         }
-        $this->Bucketlist->save($bucketlist);
         return $this->redirect(['action' => 'collect', 'username' => $this->Auth->user('username')]);
     }
 
@@ -166,17 +183,25 @@ class BucketlistController extends AppController
      */
     public function edit($id = null)
     {
+        $connection = ConnectionManager::get('default');
+
         $bucketlist = $this->Bucketlist->get($id, [
             'contain' => ['Users'],
         ]);
 
         if ($this->request->is(['patch', 'post', 'put'])) {
-            $bucketlist = $this->Bucketlist->patchEntity($bucketlist, $this->request->getData());
-            if ($this->Bucketlist->save($bucketlist)) {
-                $this->Flash->success(__('リスト項目を編集しました。'));
-                return $this->redirect(['action' => 'view', $bucketlist['id']]);
+            $connection->begin();
+            try {
+                $bucketlist = $this->Bucketlist->patchEntity($bucketlist, $this->request->getData());
+                if ($this->Bucketlist->save($bucketlist)) {
+                    $this->Flash->success(__('リスト項目を編集しました。'));
+                    $connection->commit();
+                    return $this->redirect(['action' => 'view', $bucketlist['id']]);
+                }
+            } catch (Exception $e) {
+                $this->Flash->error(__('リスト項目の編集に失敗しました。入力内容をもう一度ご確認ください。'));
+                $connection->rollback();
             }
-            $this->Flash->error(__('リスト項目の編集に失敗しました。入力内容をもう一度ご確認ください。'));
         }
         $this->set(compact('bucketlist'));
     }
@@ -190,13 +215,21 @@ class BucketlistController extends AppController
      */
     public function delete($id = null)
     {
-        $bucketlist = $this->Bucketlist->get($id);
-        $bucketlist->is_deleted = 1;
-        $bucketlist = $this->Bucketlist->patchEntity($bucketlist, $this->request->getData());
-        if ($this->Bucketlist->save($bucketlist)) {
-            $this->Flash->success(__('リスト項目を削除しました。'));
-            return $this->redirect(['action' => 'collect', 'username' => $this->Auth->user('username')]);
+        $connection = ConnectionManager::get('default');
+
+        $connection->begin();
+        try {
+            $bucketlist = $this->Bucketlist->get($id);
+            $bucketlist->is_deleted = 1;
+            $bucketlist = $this->Bucketlist->patchEntity($bucketlist, $this->request->getData());
+            if ($this->Bucketlist->save($bucketlist)) {
+                $this->Flash->success(__('リスト項目を削除しました。'));
+                $connection->commit();
+            }
+        } catch (Exception $e) {
+            $this->Flash->error(__('リスト項目の削除に失敗しました。'));
+            $connection->rollback();
         }
-        $this->Flash->error(__('リスト項目の削除に失敗しました。'));
+        return $this->redirect(['action' => 'collect', 'username' => $this->Auth->user('username')]);
     }
 }
