@@ -5,6 +5,8 @@ namespace App\Controller;
 use App\Controller\AppController;
 
 use App\Form\CustomForm;
+use Cake\Datasource\ConnectionManager;
+use Exception;
 
 /**
  * Users Controller
@@ -78,14 +80,24 @@ class UsersController extends AppController
      */
     public function add()
     {
+        $connection = ConnectionManager::get('default');
+
         $user = $this->Users->newEntity();
         if ($this->request->is('post')) {
-            $user = $this->Users->patchEntity($user, $this->request->getData());
-            if ($this->Users->save($user)) {
-                $this->Flash->success(__('アカウントの登録が完了しました'));
-                return $this->redirect(['action' => 'login']);
+            $connection->begin();
+            try {
+                $user = $this->Users->patchEntity($user, $this->request->getData());
+                if ($this->Users->save($user)) {
+                    $this->Flash->success(__('アカウントの登録が完了しました'));
+                    $connection->commit();
+
+                    return $this->redirect(['action' => 'login']);
+                }
+                $this->Flash->error(__('入力内容をもう一度ご確認ください。'));
+            } catch (Exception $e) {
+                $this->Flash->error(__('アカウントの登録に失敗しました。'));
+                $connection->rollback();
             }
-            $this->Flash->error(__('入力内容をもう一度ご確認ください。'));
         }
         $this->set(compact('user'));
     }
@@ -101,15 +113,24 @@ class UsersController extends AppController
     {
         $this->viewBuilder()->setLayout('bucketlist');
 
+        $connection = ConnectionManager::get('default');
+
         $user = $this->Users->get($this->Auth->user('id'));
         if ($this->request->is(['patch', 'post', 'put'])) {
-            $user = $this->Users->patchEntity($user, $this->request->getData());
-            if ($this->Users->save($user)) {
-                $this->Flash->success(__('設定の変更が完了しました'));
+            $connection->begin();
+            try {
+                $user = $this->Users->patchEntity($user, $this->request->getData());
+                if ($this->Users->save($user)) {
+                    $this->Flash->success(__('設定の変更が完了しました'));
+                    $connection->commit();
 
-                return $this->redirect(['controller' => 'Bucketlist', 'action' => 'index']);
+                    return $this->redirect(['controller' => 'Bucketlist', 'action' => 'index']);
+                }
+                $this->Flash->error(__('入力内容をもう一度ご確認ください。'));
+            } catch (Exception $e) {
+                $this->Flash->error(__('設定の変更に失敗しました。'));
+                $connection->rollback();
             }
-            $this->Flash->error(__('入力内容をもう一度ご確認ください。'));
         }
         $this->set(compact('user'));
     }
@@ -138,15 +159,24 @@ class UsersController extends AppController
     {
         $this->viewBuilder()->setLayout('bucketlist');
 
+        $connection = ConnectionManager::get('default');
+
         $user = $this->Users->get($this->Auth->user('id'));
         if ($this->request->is(['patch', 'post', 'put'])) {
-            $user = $this->Users->patchEntity($user, $this->request->getData());
-            if ($this->Users->save($user)) {
-                $this->Flash->success(__('設定の変更が完了しました'));
+            $connection->begin();
+            try {
+                $user = $this->Users->patchEntity($user, $this->request->getData());
+                if ($this->Users->save($user)) {
+                    $this->Flash->success(__('設定の変更が完了しました'));
+                    $connection->commit();
 
-                return $this->redirect(['controller' => 'Bucketlist', 'action' => 'index']);
+                    return $this->redirect(['controller' => 'Bucketlist', 'action' => 'index']);
+                }
+                $this->Flash->error(__('入力内容をもう一度ご確認ください。'));
+            } catch (Exception $e) {
+                $this->Flash->error(__('パスワードの設定に失敗しました。'));
+                $connection->rollback();
             }
-            $this->Flash->error(__('入力内容をもう一度ご確認ください。'));
         }
         $this->set(compact('user'));
     }
@@ -155,31 +185,40 @@ class UsersController extends AppController
     {
         $this->viewBuilder()->setLayout('bucketlist');
 
+        $connection = ConnectionManager::get('default');
+
         $user = $this->Users->get($this->Auth->user('id'));
         $file_upload = new CustomForm();
         if ($this->request->is(['patch', 'post', 'put'])) {
-            $request_data = $this->request->getData();
-            $request_file = $this->request->getData('image');
-            if (!empty($request_file['name'])) {
-                if ($file_upload->execute($request_data)) {
-                    // ファイル名変更
-                    $request_data['image'] = date('YmdHis') . $request_file['name'];
-                    // ファイル保存
-                    $filePath = WWW_ROOT . DS . 'img' . DS . 'userimage' . DS . $request_data['image'];
-                    move_uploaded_file($request_file['tmp_name'], $filePath);
-                } else {
-                    $errors = $file_upload->getErrors();
+            $connection->begin();
+            try {
+                $request_data = $this->request->getData();
+                $request_file = $this->request->getData('image');
+                if (!empty($request_file['name'])) {
+                    if ($file_upload->execute($request_data)) {
+                        // ファイル名変更
+                        $request_data['image'] = date('YmdHis') . $request_file['name'];
+                        // ファイル保存
+                        $filePath = WWW_ROOT . DS . 'img' . DS . 'userimage' . DS . $request_data['image'];
+                        move_uploaded_file($request_file['tmp_name'], $filePath);
+                    } else {
+                        $errors = $file_upload->getErrors();
+                    }
                 }
-            }
-            if (empty($errors)) {
-                // ユーザー情報の更新
-                $user = $this->Users->patchEntity($user, $request_data);
-                $this->Users->save($user);
-                $this->Flash->success(__('画像を変更しました。'));
+                if (empty($errors)) {
+                    // ユーザー情報の更新
+                    $user = $this->Users->patchEntity($user, $request_data);
+                    $this->Users->save($user);
+                    $this->Flash->success(__('画像を変更しました。'));
+                    $connection->commit();
 
-                return $this->redirect(['controller' => 'Users', 'action' => 'view']);
-            } else {
-                $this->Flash->error('正しい画像を指定してください。');
+                    return $this->redirect(['controller' => 'Users', 'action' => 'view']);
+                } else {
+                    $this->Flash->error(__('正しい画像を指定してください。'));
+                }
+            } catch (Exception $e) {
+                $this->Flash->error(__('画像の変更に失敗しました。'));
+                $connection->rollback();
             }
         }
         $this->set(compact('user'));
