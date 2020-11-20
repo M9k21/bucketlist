@@ -124,6 +124,7 @@ class UsersController extends AppController
                     $this->Flash->success(__('設定の変更が完了しました'));
                     $connection->commit();
 
+                    $this->Auth->setUser($user);
                     return $this->redirect(['controller' => 'Bucketlist', 'action' => 'index']);
                 }
                 $this->Flash->error(__('入力内容をもう一度ご確認ください。'));
@@ -212,6 +213,7 @@ class UsersController extends AppController
                     $this->Flash->success(__('画像を変更しました。'));
                     $connection->commit();
 
+                    $this->Auth->setUser($user);
                     return $this->redirect(['controller' => 'Users', 'action' => 'view']);
                 } else {
                     $this->Flash->error(__('正しい画像を指定してください。'));
