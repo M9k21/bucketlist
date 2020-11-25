@@ -72,6 +72,7 @@ Router::scope('/', function (RouteBuilder $routes) {
     $routes->connect('/pages/*', ['controller' => 'Pages', 'action' => 'display']);
 
     $routes->connect('/bucketlist/:username', ['controller' => 'Bucketlist', 'action' => 'collect']);
+    $routes->connect('/bucketlist/:username/add', ['controller' => 'Bucketlist', 'action' => 'add']);
 
     /**
      * Connect catchall routes for all controllers.

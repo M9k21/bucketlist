@@ -3,7 +3,14 @@
 <?php if ($username === $authuser['username']) : ?>
     <p>あなたの実現したいことを教えてください。</p>
     <fieldset>
-        <?= $this->Form->create($add_bucketlist) ?>
+        <?= $this->Form->create($add_bucketlist, [
+            'type' => 'post',
+            'url' => [
+                'controller'=>'Bucketlist',
+                'action' => 'add',
+                'username' =>$username
+            ]
+        ]) ?>
         <?= $this->Form->hidden('user_id', ['value' => $authuser['id']]) ?>
         <?= $this->Form->text('item', ['value' => '']) ?>
         <?= $this->Form->hidden('is_deleted', ['value' => 0]) ?>
