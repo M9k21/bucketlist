@@ -103,13 +103,11 @@ class BucketlistController extends AppController
         $bucketlist = $this->Bucketlist->newEntity();
         if ($this->request->is('post')) {
             $connection->begin();
-            try {
-                $bucketlist = $this->Bucketlist->patchEntity($bucketlist, $this->request->getData());
-                if ($this->Bucketlist->save($bucketlist)) {
-                    $this->Flash->success(__('リスト項目を追加しました。'));
-                    $connection->commit();
-                }
-            } catch (Exception $e) {
+            $bucketlist = $this->Bucketlist->patchEntity($bucketlist, $this->request->getData());
+            if ($this->Bucketlist->save($bucketlist)) {
+                $this->Flash->success(__('リスト項目を追加しました。'));
+                $connection->commit();
+            } else {
                 $this->Flash->error(__('リスト項目の追加に失敗しました。もう一度ご入力ください。'));
                 $connection->rollback();
             }
