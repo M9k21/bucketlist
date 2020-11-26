@@ -62,7 +62,8 @@ class BucketlistTable extends Table
             ->scalar('item')
             ->maxLength('item', 100)
             ->requirePresence('item', 'create')
-            ->notEmptyString('item');
+            ->notEmptyString('item')
+            ->notBlank('item');
 
         $validator
             ->scalar('detail')
