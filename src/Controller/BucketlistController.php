@@ -69,12 +69,12 @@ class BucketlistController extends AppController
                     'is_deleted' => 0
                 ]
             ]
-        ])->toArray();
+        ])->first();
         if (empty($user)) {
             $this->Flash->error(__('指定されたリストは存在しません。'));
             return $this->redirect(['action' => 'index']);
         } else {
-            if ($user[0]->id !== $this->Auth->user('id') && $user[0]->private) {
+            if ($user->id !== $this->Auth->user('id') && $user->private) {
                 $this->Flash->error(__('指定されたリストは非公開のため表示できません。'));
                 return $this->redirect(['action' => 'index']);
             }
@@ -93,7 +93,7 @@ class BucketlistController extends AppController
         // リスト項目の集計
         $bucketlist_count = $bucketlists->count();
         $add_bucketlist = $this->Bucketlist->newEntity();
-        $this->set(compact('username', 'bucketlists', 'bucketlist_count', 'add_bucketlist', ));
+        $this->set(compact('user', 'bucketlists', 'bucketlist_count', 'add_bucketlist', ));
     }
 
     public function add()
