@@ -38,7 +38,11 @@
         </div>
         <nav class="large-2 medium-3 columns sidebar" id="actions-sidebar">
             <ul class="side-nav">
-                <li><?= $this->Html->image($authuser['image'] ? 'userimage' . DS . $authuser['image'] : 'userdefault.png', ['width' => 40, 'height' => 40]) ?><?= h($authuser['username']) ?></li>
+                <li>
+                    <?= $this->Html->image($authuser['image'] ? 'userimage' . DS . $authuser['image'] : 'userdefault.png', ['width' => 40, 'height' => 40]) ?>
+                    <?= h($authuser['username']) ?>
+                    <?= $authuser['private']? ' <i class="fas fa-lock fa-s fa-fw"></i>' : '' ?>
+                </li>
                 <li class="heading"><?= __('Menu') ?></li>
                 <li><?= $this->Html->link(__('TOP'), ['controller' => 'bucketlist', 'action' => 'index']) ?></li>
                 <li><?= $this->Html->link(__('My List'), ['controller' => 'bucketlist', 'action' => 'collect', 'username' => $authuser['username']]) ?></li>
