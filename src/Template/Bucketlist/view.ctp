@@ -1,6 +1,6 @@
 <h2><?= h($bucketlist->user->username) ?> 's List</h2>
 <h3>
-    <?= h($bucketlist->completed ? '■' : '□') ?>
+    <?= $bucketlist->completed ? '<i class="fas fa-check-square"></i>' : '<i class="far fa-square"></i>' ?>
     <?= h($bucketlist->item) ?>
 </h3>
 <?php if (!empty($bucketlist->completed)) : ?>
