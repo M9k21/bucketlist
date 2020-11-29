@@ -23,17 +23,13 @@
         <li>
             <?php if ($username === $authuser['username']) : ?>
                 <?php if (!empty($bucketlist->completed)) : ?>
-                    <?= $this->Html->link('■', ['action' => 'complete', $bucketlist->id]) ?>
+                    <?= $this->Html->link('<i class="fas fa-check-square"></i>', ['action' => 'complete', $bucketlist->id], ['escape'=> false]) ?>
                 <?php else : ?>
-                    <?= $this->Html->link('□', ['action' => 'complete', $bucketlist->id]) ?>
+                    <?= $this->Html->link('<i class="far fa-square"></i>', ['action' => 'complete', $bucketlist->id], ['escape'=> false]) ?>
                 <?php endif ?>
                 <?= $this->Html->link($bucketlist->item, ['action' => 'view', $bucketlist->id]) ?>
             <?php else : ?>
-                <?php if (!empty($bucketlist->completed)) : ?>
-                    <?= '■' ?>
-                <?php else : ?>
-                    <?= '□' ?>
-                <?php endif ?>
+                <?= !empty($bucketlist->completed)? '<i class="fas fa-check-square"></i>':'<i class="far fa-square"></i>' ?>
                 <?= h($bucketlist->item) ?>
             <?php endif; ?>
             <?= !empty($bucketlist->completed) ? '＼達成／' : '' ?>

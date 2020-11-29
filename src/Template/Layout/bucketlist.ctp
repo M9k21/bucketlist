@@ -14,6 +14,7 @@
     <?= $this->fetch('meta') ?>
     <?= $this->fetch('css') ?>
     <?= $this->fetch('script') ?>
+    <?= $this->Html->script('https://kit.fontawesome.com/a6c1df6d9e.js" crossorigin="anonymous') ?>
 </head>
 
 <body>
