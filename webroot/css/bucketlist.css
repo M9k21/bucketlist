@@ -76,3 +76,6 @@ button {
     display: flex;
     align-items: center;
 }
+.form-text {
+    font-size: 14px;
+}

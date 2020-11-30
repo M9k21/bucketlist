@@ -1,8 +1,8 @@
 <h2><?= h($user->username) ?> 's List<?=$user->private? ' <i class="fas fa-lock fa-xs"></i>': ''?></h2>
 <p>現在<?= h($bucketlist_count) ?>個登録されています。</p>
 <?php if ($user->username === $authuser['username']) : ?>
-    <p>あなたの実現したいことを教えてください。</p>
     <fieldset>
+        <p class="form-text">あなたの実現したいことを教えてください。</p>
         <?= $this->Form->create($add_bucketlist, [
             'type' => 'post',
             'url' => [
