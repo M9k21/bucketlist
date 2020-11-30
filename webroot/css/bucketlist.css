@@ -2,6 +2,9 @@ body{
     background: #c5beba;
     color: #113743;
 }
+ul {
+    margin: 0;
+}
 ul li{
     list-style-type: none;
 }
@@ -61,4 +64,15 @@ button {
 }
 .completed {
     color: #e4e3db;
+}
+.description{
+    margin-bottom: 1.0rem;
+}
+.description p{
+    font-size: 14px;
+    margin-bottom: 0;
+}
+.listitem{
+    display: flex;
+    align-items: center;
 }
