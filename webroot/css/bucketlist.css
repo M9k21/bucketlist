@@ -83,3 +83,9 @@ button {
     font-size: 14px;
     text-align: right;
 }
+.delete {
+    font-size: 14px;
+}
+.delete a {
+    text-decoration: underline;
+}
