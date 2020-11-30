@@ -79,3 +79,7 @@ button {
 .form-text {
     font-size: 14px;
 }
+.updated {
+    font-size: 14px;
+    text-align: right;
+}

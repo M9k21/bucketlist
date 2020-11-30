@@ -15,6 +15,5 @@
         <p>実現に向けてのプランや実現した日の記録を残してみましょう！</p>
     <?php endif; ?>
 </div>
-<p><?= '最終更新：' . h($bucketlist->modified) ?></p>
-<p><?= $this->Html->link('編集する', ['action' => 'edit', $bucketlist->id]) ?></p>
+<p class="updated"><?= '最終更新：' . h($bucketlist->modified) ?> <?= $this->Html->link('<i class="fas fa-edit fa-lg fa-fw"></i>', ['action' => 'edit', $bucketlist->id], ['escape' => false]) ?></p>
 <p><?= $this->Html->link('戻る', ['action' => 'collect', 'username' => $bucketlist->user->username]) ?></p>
