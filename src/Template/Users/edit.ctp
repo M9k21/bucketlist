@@ -1,6 +1,5 @@
+<h3>アカウント情報の変更</h3>
 <?= $this->Form->create($user) ?>
-<fieldset>
-    <legend><?= __('アカウント情報の変更') ?></legend>
     <?php
     echo $this->Form->control('username');
     echo $this->Form->hidden('password', ['value' => $user->password]);
@@ -16,8 +15,8 @@
     ]);
     echo $this->Form->hidden('is_deleted', ['value' => 0]);
     ?>
-    <p>パスワードの変更は<?= $this->Html->link('こちら', ['controller' => 'Users', 'action' => 'setpassword']) ?></p>
-    <p>画像の変更は<?= $this->Html->link('こちら', ['controller' => 'Users', 'action' => 'setimage']) ?></p>
-</fieldset>
-<?= $this->Form->button(__('Submit')) ?>
+    <p>パスワードの設定は<?= $this->Html->link('こちら', ['controller' => 'Users', 'action' => 'setpassword']) ?></p>
+    <p>アイコン画像の変更は<?= $this->Html->link('こちら', ['controller' => 'Users', 'action' => 'setimage']) ?></p>
+<?= $this->Form->button(__('送信')) ?>
 <?= $this->Form->end() ?>
+<?= $this->Html->link(__('戻る'), ['controller' => 'Users', 'action' => 'view']) ?>
