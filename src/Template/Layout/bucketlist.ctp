@@ -10,6 +10,7 @@
     <?= $this->Html->meta('icon') ?>
 
     <?= $this->Html->css('base.css') ?>
+    <?= $this->Html->css('bucketlist.css') ?>
 
     <?= $this->fetch('meta') ?>
     <?= $this->fetch('css') ?>

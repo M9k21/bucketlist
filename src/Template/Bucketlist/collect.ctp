@@ -32,7 +32,7 @@
                 <?= !empty($bucketlist->completed)? '<i class="fas fa-check-square"></i>':'<i class="far fa-square"></i>' ?>
                 <?= h($bucketlist->item) ?>
             <?php endif; ?>
-            <?= !empty($bucketlist->completed) ? '＼達成／' : '' ?>
+            <span class="completed"><?= !empty($bucketlist->completed) ? '＼達成／' : '' ?></span>
         </li>
     <?php endforeach; ?>
 </ul>

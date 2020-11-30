@@ -8,11 +8,13 @@
 <?php else : ?>
     <p>これから実現する予定です</p>
 <?php endif; ?>
-<?php if (!empty($bucketlist->detail)) : ?>
-    <?= nl2br(h($bucketlist->detail)) ?>
-<?php else : ?>
-    <p>実現に向けてのプランや実現した日の記録を残してみましょう！</p>
-<?php endif; ?>
+<div class="textarea">
+    <?php if (!empty($bucketlist->detail)) : ?>
+        <?= nl2br(h($bucketlist->detail)) ?>
+    <?php else : ?>
+        <p>実現に向けてのプランや実現した日の記録を残してみましょう！</p>
+    <?php endif; ?>
+</div>
 <p><?= '最終更新：' . h($bucketlist->modified) ?></p>
 <p><?= $this->Html->link('編集する', ['action' => 'edit', $bucketlist->id]) ?></p>
 <p><?= $this->Html->link('戻る', ['action' => 'collect', 'username' => $bucketlist->user->username]) ?></p>

@@ -1,0 +1,64 @@
+body{
+    background: #c5beba;
+    color: #113743;
+}
+ul li{
+    list-style-type: none;
+}
+nav.titlebar{
+    background: #113743;
+}
+.titlebar-name{
+    width:50%;
+}
+.top-bar .name h1 a {
+    color: #e4e3db;
+}
+#actions-sidebar{
+    background-color: #113743;
+    color: #e4e3db;
+}
+#actions-sidebar a {
+    color: #e4e3db;
+}
+h1{
+    font-size: 1.5rem;
+    color: #113743;
+}
+h2{
+    margin-bottom: 1.0rem;
+    color: #113743;
+}
+h3{
+    margin-bottom: 1.0rem;
+    color: #113743;
+}
+p{
+    margin-bottom: 0.5rem;
+}
+table{
+    width:100%;
+}
+table tr th.main{
+    width:50%;
+}
+table tr th.small {
+    width:25%;
+}
+a {
+    color: #113743;
+}
+button {
+    background-color: #c5001a;
+    color: #e4e3db;
+    padding: 0.5rem 0.8rem;
+    border-radius: 3px;
+}
+.textarea {
+    background: #e4e3db;
+    min-height: 200px;
+    height: auto;
+}
+.completed {
+    color: #e4e3db;
+}
