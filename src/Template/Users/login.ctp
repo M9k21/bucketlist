@@ -6,4 +6,4 @@
 <?= $this->Form->button(__('Login')); ?>
 <?= $this->Form->end() ?>
 
-<p>アカウントをお持ちでない方は<?= $this->Html->link('こちら', ['controller' => 'Users', 'action' => 'add']) ?>から</p>
+<p>アカウントをお持ちでない方は<?= $this->Html->link('こちら', ['controller' => 'Users', 'action' => 'index']) ?>から</p>

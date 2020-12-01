@@ -23,6 +23,7 @@ class UsersController extends AppController
         $this->loadModel('Bucketlist');
         $this->set('authuser', $this->Auth->user());
         $this->viewBuilder()->setLayout('users');
+        $this->Auth->allow(['index']);
     }
 
     // ログイン処理
