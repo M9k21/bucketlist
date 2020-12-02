@@ -8,22 +8,6 @@ ul {
 ul li{
     list-style-type: none;
 }
-nav.titlebar{
-    background: #113743;
-}
-.titlebar-name{
-    width:50%;
-}
-.top-bar .name h1 a {
-    color: #e4e3db;
-}
-#actions-sidebar{
-    background-color: #113743;
-    color: #e4e3db;
-}
-#actions-sidebar a {
-    color: #e4e3db;
-}
 h1{
     font-size: 1.5rem;
     color: #113743;
@@ -88,4 +72,30 @@ button {
 }
 .delete a {
     text-decoration: underline;
+}
+.header{
+    background: #113743;
+}
+.header-menu{
+    display: flex;
+    justify-content: space-between;
+    align-items: center;
+    padding:0 15px;
+}
+.header-menu a {
+    color: #e4e3db;
+}
+.header-menu h1 {
+    margin: 0;
+    padding: 10px 0;
+}
+.header-menu-right {
+    display: flex;
+}
+.header-icon {
+    display: flex;
+}
+.header-icon a {
+    padding: 10px;
+    line-height: inherit;
 }

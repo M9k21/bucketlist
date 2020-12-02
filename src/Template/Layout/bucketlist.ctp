@@ -19,12 +19,18 @@
 </head>
 
 <body>
-    <nav class="top-bar titlebar" data-topbar role="navigation">
-        <ul class="title-area large-3 medium-4 columns name">
+    <nav class="header">
+        <ul class="header-menu">
             <li>
                 <h1>
                     <?= $this->Html->link(__('Bucket List'), ['controller' => 'bucketlist', 'action' => 'index']) ?>
                 </h1>
+            </li>
+            <li class="header-menu-right">
+                <ul class="header-icon">
+                    <li><?= $this->Html->link('<i class="far fa-list-alt fa-lg"></i>', ['controller' => 'Bucketlist', 'action' => 'collect', 'username' => $authuser['username']], ['escape' => false]) ?></li>
+                    <li><?= $this->Html->link('<i class="fas fa-cog fa-lg"></i>', ['controller' => 'Users', 'action' => 'view'], ['escape' => false]) ?></li>
+                </ul>
             </li>
         </ul>
         <div class="top-bar-section">
@@ -37,21 +43,6 @@
         <div class="actions index medium-9 columns content">
             <?= $this->fetch('content') ?>
         </div>
-        <nav class="large-2 medium-3 columns sidebar" id="actions-sidebar">
-            <ul class="side-nav">
-                <li>
-                    <?= $this->Html->image($authuser['image'] ? 'userimage' . DS . $authuser['image'] : 'userdefault.png', ['width' => 40, 'height' => 40]) ?>
-                    <?= h($authuser['username']) ?>
-                    <?= $authuser['private']? ' <i class="fas fa-lock fa-s fa-fw"></i>' : '' ?>
-                </li>
-                <li class="heading"><?= __('Menu') ?></li>
-                <li><?= $this->Html->link(__('TOP'), ['controller' => 'bucketlist', 'action' => 'index']) ?></li>
-                <li><?= $this->Html->link(__('My List'), ['controller' => 'bucketlist', 'action' => 'collect', 'username' => $authuser['username']]) ?></li>
-                <hr>
-                <li><?= $this->Html->link(__('Setting'), ['controller' => 'Users', 'action' => 'view']) ?></li>
-                <li><?= $this->Html->link(__('Logout'), ['controller' => 'Users', 'action' => 'logout']) ?></li>
-            </ul>
-        </nav>
     </div>
     <footer>
     </footer>

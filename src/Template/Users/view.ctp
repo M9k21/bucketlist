@@ -23,4 +23,5 @@
     </tr>
 </table>
 
-<?= $this->Html->link('変更する', ['controller' => 'Users', 'action' => 'edit']) ?>
+<p><?= $this->Html->link('変更する', ['controller' => 'Users', 'action' => 'edit']) ?></p>
+<p><?= $this->Html->link('ログアウト', ['controller' => 'Users', 'action' => 'logout']) ?></p>
