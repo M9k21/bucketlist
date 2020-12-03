@@ -60,6 +60,14 @@ class BucketlistController extends AppController
 
     public function collect($username = null)
     {
+        $add_bucketlist = $this->Bucketlist->newEntity();
+
+        if ($this->getRequest()->getSession()->read('errors')) {
+            $error = $this->getRequest()->getSession()->read('errors');
+            $add_bucketlist->errors($error);
+            $this->getRequest()->getSession()->delete('errors');
+        }
+
         // usernameの取得
         $username = $this->request->getParam('username');
         $user = $this->Users->find('all', [
@@ -92,7 +100,6 @@ class BucketlistController extends AppController
         ]);
         // リスト項目の集計
         $bucketlist_count = $bucketlists->count();
-        $add_bucketlist = $this->Bucketlist->newEntity();
         $this->set(compact('user', 'bucketlists', 'bucketlist_count', 'add_bucketlist', ));
     }
 
@@ -108,7 +115,7 @@ class BucketlistController extends AppController
                 $this->Flash->success(__('リスト項目を追加しました。'));
                 $connection->commit();
             } else {
-                $this->Flash->error(__('リスト項目の追加に失敗しました。もう一度ご入力ください。'));
+                $this->getRequest()->getSession()->write('errors', $bucketlist->errors());
                 $connection->rollback();
             }
         }

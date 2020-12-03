@@ -12,6 +12,7 @@
             ]
         ]) ?>
         <?= $this->Form->hidden('user_id', ['value' => $authuser['id']]) ?>
+        <?= $this->Form->error('item')?>
         <?= $this->Form->text('item', ['value' => '']) ?>
         <?= $this->Form->hidden('is_deleted', ['value' => 0]) ?>
         <?= $this->Form->button(__('登録')) ?>

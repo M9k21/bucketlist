@@ -63,7 +63,7 @@ class BucketlistTable extends Table
             ->maxLength('item', 100)
             ->requirePresence('item', 'create')
             ->notEmptyString('item')
-            ->notBlank('item');
+            ->notBlank('item', '正しい文字を入力してください');
 
         $validator
             ->scalar('detail')
