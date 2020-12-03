@@ -208,7 +208,7 @@ class UsersController extends AppController
                 $this->Auth->setUser($user);
                 return $this->redirect(['controller' => 'Users', 'action' => 'view']);
             } else {
-                $this->Flash->error(__('画像の変更に失敗しました。恐れ入りますが画像を改めて指定してください。'));
+                $user->errors($errors);
                 $connection->rollback();
             }
         }
