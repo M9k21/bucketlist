@@ -99,3 +99,7 @@ button {
     padding: 10px;
     line-height: inherit;
 }
+.error-message {
+    color: #c5001a;
+    font-size: 14px;
+}
