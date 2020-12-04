@@ -64,7 +64,7 @@ class BucketlistController extends AppController
 
         if ($this->getRequest()->getSession()->read('errors')) {
             $error = $this->getRequest()->getSession()->read('errors');
-            $add_bucketlist->errors($error);
+            $add_bucketlist->setErrors($error);
             $this->getRequest()->getSession()->delete('errors');
         }
 

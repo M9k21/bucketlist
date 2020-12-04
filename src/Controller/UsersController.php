@@ -208,7 +208,7 @@ class UsersController extends AppController
                 $this->Auth->setUser($user);
                 return $this->redirect(['controller' => 'Users', 'action' => 'view']);
             } else {
-                $user->errors($errors);
+                $user->setErrors($errors);
                 $connection->rollback();
             }
         }
