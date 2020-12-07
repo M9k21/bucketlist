@@ -7,8 +7,7 @@
             'type' => 'post',
             'url' => [
                 'controller'=>'Bucketlist',
-                'action' => 'add',
-                'username' =>$user->username
+                'action' => 'add'
             ]
         ]) ?>
         <?= $this->Form->hidden('user_id', ['value' => $authuser['id']]) ?>
