@@ -7,13 +7,15 @@
 </div>
 <ul>
     <?php foreach ($complete_bucketlists as $complete_bucketlist) : ?>
-        <li class="listitem">
-            <span><?= $this->Html->image($complete_bucketlist->user->image ? 'userimage' . DS . $complete_bucketlist->user->image : 'userdefault.png', ['width' => 40, 'height' => 40]) ?></span>
-            <ul>
-                <li><?= $this->Html->link($complete_bucketlist->user->username, ['action' => 'collect', 'username' => $complete_bucketlist->user->username]) ?></li>
-                <li><?= h($complete_bucketlist->item) ?></li>
-            </ul>
-        </li>
+        <a href="<?= $this->Url->build(['controller'=> 'Bucketlist', 'action'=>'collect', 'username' => $complete_bucketlist->user->username]) ?>">
+            <li class="listitem">
+                <?= $this->Html->image($complete_bucketlist->user->image ? 'userimage' . DS . $complete_bucketlist->user->image : 'userdefault.png', ['width' => 40, 'height' => 40]) ?>
+                <ul>
+                    <li><?= h($complete_bucketlist->user->username) ?></li>
+                    <li><?= h($complete_bucketlist->item) ?></li>
+                </ul>
+            </li>
+        </a>
         <hr>
     <?php endforeach; ?>
 </ul>

@@ -60,6 +60,10 @@ button {
     display: flex;
     align-items: center;
 }
+a .listitem:hover {
+    background: #e4e3db;
+    color: #113743;
+}
 .form-text {
     font-size: 14px;
 }
@@ -109,4 +113,7 @@ div.message {
 }
 div.message.error {
     color: #c5001a;
+}
+hr {
+    margin: 8px 0;
 }
