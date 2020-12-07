@@ -6,17 +6,14 @@
     <p>参考になるかもしれません。</p>
 </div>
 <ul>
-    <?php shuffle($new_bucketlists); ?>
-    <?php foreach ($new_bucketlists as $new_bucketlist) : ?>
-        <?php if (!empty($new_bucketlist->item)) : ?>
-            <li class="listitem">
-                <span><?= $this->Html->image($new_bucketlist->user->image ? 'userimage' . DS . $new_bucketlist->user->image : 'userdefault.png', ['width' => 40, 'height' => 40]) ?></span>
-                <ul>
-                    <li><?= $this->Html->link($new_bucketlist->user->username, ['action' => 'collect', 'username' => $new_bucketlist->user->username]) ?></li>
-                    <li><?= h($new_bucketlist->item) ?></li>
-                </ul>
-            </li>
-            <hr>
-        <?php endif ?>
+    <?php foreach ($complete_bucketlists as $complete_bucketlist) : ?>
+        <li class="listitem">
+            <span><?= $this->Html->image($complete_bucketlist->user->image ? 'userimage' . DS . $complete_bucketlist->user->image : 'userdefault.png', ['width' => 40, 'height' => 40]) ?></span>
+            <ul>
+                <li><?= $this->Html->link($complete_bucketlist->user->username, ['action' => 'collect', 'username' => $complete_bucketlist->user->username]) ?></li>
+                <li><?= h($complete_bucketlist->item) ?></li>
+            </ul>
+        </li>
+        <hr>
     <?php endforeach; ?>
 </ul>
