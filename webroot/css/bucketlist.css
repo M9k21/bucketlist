@@ -103,3 +103,10 @@ button {
     color: #c5001a;
     font-size: 14px;
 }
+div.message {
+    background: #e4e3db;
+    text-align: center;
+}
+div.message.error {
+    color: #c5001a;
+}

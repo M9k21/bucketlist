@@ -38,3 +38,6 @@ form {
 .top-link a {
     text-decoration: underline;
 }
+div.message.success{
+    color: #113743;
+}
