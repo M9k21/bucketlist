@@ -78,7 +78,7 @@ class BucketlistController extends AppController
                 return $this->redirect(['action' => 'index']);
             }
         }
-        // リストの取得
+        // リスト項目の集計
         $bucketlists = $this->Bucketlist->find('all', [
             'conditions' => [
                 'and' => [
@@ -89,8 +89,20 @@ class BucketlistController extends AppController
             'contain' => ['Users'],
             'order' => ['Bucketlist.created' => 'asc'],
         ]);
-        // リスト項目の集計
         $bucketlist_count = $bucketlists->count();
+
+        $bucketlists = $this->paginate('Bucketlist', [
+        'conditions' => [
+                'and' => [
+                    'username' => $username,
+                    'Bucketlist.is_deleted' => 0
+                ]
+        ],
+        'contain' => ['Users'],
+        'order' => ['Bucketlist.created' => 'asc'],
+        'limit' => 20
+        ]);
+
         $this->set(compact('user', 'bucketlists', 'bucketlist_count', 'add_bucketlist', ));
     }
 

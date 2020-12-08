@@ -36,3 +36,10 @@
         </li>
     <?php endforeach; ?>
 </ul>
+<div class="paginator">
+    <ul class="pagination">
+        <?= $this->Paginator->prev('< ', ['url' => ['action' => 'collect', 'username' => $user->username]]) ?>
+        <?= $this->Paginator->numbers(['url' => ['action' => 'collect', 'username' => $user->username]]) ?>
+        <?= $this->Paginator->next(' >', ['url' => ['action' => 'collect', 'username' => $user->username]]) ?>
+    </ul>
+</div>
