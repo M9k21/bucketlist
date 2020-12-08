@@ -18,6 +18,7 @@ class BucketlistController extends AppController
     public function initialize()
     {
         parent::initialize();
+        $this->loadComponent('Paginator');
         $this->loadModel('Users');
         $this->set('authuser', $this->Auth->user());
         $this->viewBuilder()->setLayout('bucketlist');
@@ -31,7 +32,7 @@ class BucketlistController extends AppController
     public function index()
     {
         // 公開userの達成リストを取得
-        $complete_bucketlists = $this->Bucketlist->find('all', [
+        $complete_bucketlists = $this->paginate('Bucketlist', [
                 'conditions' => [
                     'and' => [
                         'private' => 0,
@@ -42,6 +43,7 @@ class BucketlistController extends AppController
                 ],
                 'contain' => ['Users'],
                 'order' => ['completed' => 'desc'],
+                'limit' => 10
         ]);
 
         $this->set(compact('complete_bucketlists'));
