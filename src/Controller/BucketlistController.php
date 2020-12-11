@@ -33,17 +33,17 @@ class BucketlistController extends AppController
     {
         // 公開userの達成リストを取得
         $complete_bucketlists = $this->paginate('Bucketlist', [
-                'conditions' => [
-                    'and' => [
-                        'private' => 0,
-                        'Users.is_deleted' => 0,
-                        'completed IS NOT NULL',
-                        'Bucketlist.is_deleted' => 0
-                    ]
-                ],
-                'contain' => ['Users'],
-                'order' => ['completed' => 'desc'],
-                'limit' => 10
+            'conditions' => [
+                'and' => [
+                    'private' => 0,
+                    'Users.is_deleted' => 0,
+                    'completed IS NOT NULL',
+                    'Bucketlist.is_deleted' => 0
+                ]
+            ],
+            'contain' => ['Users'],
+            'order' => ['completed' => 'desc'],
+            'limit' => 10
         ]);
 
         $this->set(compact('complete_bucketlists'));
@@ -92,18 +92,18 @@ class BucketlistController extends AppController
         $bucketlist_count = $bucketlists->count();
 
         $bucketlists = $this->paginate('Bucketlist', [
-        'conditions' => [
+            'conditions' => [
                 'and' => [
                     'username' => $username,
                     'Bucketlist.is_deleted' => 0
                 ]
-        ],
-        'contain' => ['Users'],
-        'order' => ['Bucketlist.created' => 'asc'],
-        'limit' => 20
+            ],
+            'contain' => ['Users'],
+            'order' => ['Bucketlist.created' => 'asc'],
+            'limit' => 20
         ]);
 
-        $this->set(compact('user', 'bucketlists', 'bucketlist_count', 'add_bucketlist', ));
+        $this->set(compact('user', 'bucketlists', 'bucketlist_count', 'add_bucketlist',));
     }
 
     public function add()
