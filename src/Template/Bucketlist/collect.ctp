@@ -1,3 +1,6 @@
+<?= $this->Html->script('https://ajax.googleapis.com/ajax/libs/jquery/1.12.4/jquery.min.js') ?>
+<?= $this->Html->script($checkbox) ?>
+
 <h2><?= h($user->username) ?> 's List<?= $user->private ? ' <i class="fas fa-lock fa-xs"></i>' : '' ?></h2>
 <p>現在<?= h($bucketlist_count) ?>個登録されています。</p>
 <?php if ($user->username === $authuser['username']) : ?>
@@ -20,20 +23,25 @@
 <?php endif; ?>
 <ul>
     <?php foreach ($bucketlists as $bucketlist) : ?>
-        <li>
-            <?php if ($user->username === $authuser['username']) : ?>
-                <?php if (!empty($bucketlist->completed)) : ?>
-                    <?= $this->Html->link('<i class="fas fa-check-square"></i>', ['action' => 'complete', $bucketlist->id], ['escape' => false]) ?>
-                <?php else : ?>
-                    <?= $this->Html->link('<i class="far fa-square"></i>', ['action' => 'complete', $bucketlist->id], ['escape' => false]) ?>
-                <?php endif ?>
+        <?php if ($user->username === $authuser['username']) : ?>
+            <li class="bucketlist_item_flex">
+                <div id="checkbox_<?= h($bucketlist->id) ?>">
+                    <?= $this->element('checkbox', ['bucketlist' => $bucketlist]) ?>
+                </div>
                 <?= $this->Html->link($bucketlist->item, ['action' => 'view', $bucketlist->id]) ?>
-            <?php else : ?>
+                <?php if (!empty($bucketlist->completed)) : ?>
+                    <span class="completed" id="completed_<?= h($bucketlist->id) ?>">＼達成／</span>
+                <?php else : ?>
+                    <span class="completed" id="completed_<?= h($bucketlist->id) ?>" style="display:none;">＼達成／</span>
+                <?php endif; ?>
+            </li>
+        <?php else : ?>
+            <li>
                 <?= !empty($bucketlist->completed) ? '<i class="fas fa-check-square"></i>' : '<i class="far fa-square"></i>' ?>
                 <?= h($bucketlist->item) ?>
-            <?php endif; ?>
-            <span class="completed"><?= !empty($bucketlist->completed) ? '＼達成／' : '' ?></span>
-        </li>
+                <span class="completed"><?= !empty($bucketlist->completed) ? '＼達成／' : '' ?></span>
+            </li>
+        <?php endif; ?>
     <?php endforeach; ?>
 </ul>
 <div class="paginator">

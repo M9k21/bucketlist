@@ -117,3 +117,12 @@ div.message.error {
 hr {
     margin: 8px 0;
 }
+li.bucketlist_item_flex {
+    display: flex;
+}
+.incomplete_button {
+    margin-right:8px;
+}
+.complete_button {
+    margin-right:8px;
+}

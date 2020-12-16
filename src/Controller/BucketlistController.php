@@ -51,6 +51,8 @@ class BucketlistController extends AppController
 
     public function collect($username = null)
     {
+        $this->set('checkbox', 'checkbox.js');
+
         $add_bucketlist = $this->Bucketlist->newEntity();
 
         if ($this->getRequest()->getSession()->read('errors')) {
@@ -125,25 +127,48 @@ class BucketlistController extends AppController
         return $this->redirect(['action' => 'collect', 'username' => $this->Auth->user('username')]);
     }
 
-    public function complete($id = null)
+    public function complete()
     {
+        $this->viewBuilder()->enableAutoLayout(false);
+
         $connection = ConnectionManager::get('default');
 
         $connection->begin();
-        $bucketlist = $this->Bucketlist->get($id);
-        if (empty($bucketlist->completed)) {
+        if ($this->request->is('ajax')) {
+            $id = $this->request->getData('bucketlist_id');
+            $bucketlist = $this->Bucketlist->get($id);
             // リストの達成
             $bucketlist->completed = new \DateTime('now');
-        } else {
+
+            if ($this->Bucketlist->save($bucketlist)) {
+                $connection->commit();
+                $this->set(compact('bucketlist'));
+            } else {
+                $connection->rollback();
+            }
+        }
+    }
+
+    public function incomplete()
+    {
+        $this->viewBuilder()->enableAutoLayout(false);
+
+        $connection = ConnectionManager::get('default');
+
+        $connection->begin();
+        if ($this->request->is('ajax')) {
+            $id = $this->request->getData('bucketlist_id');
+            $bucketlist = $this->Bucketlist->get($id);
             // リスト達成の取り消し
             $bucketlist->completed = null;
+
+            if ($this->Bucketlist->save($bucketlist)) {
+                $connection->commit();
+                $this->set(compact('bucketlist'));
+            } else {
+                $connection->rollback();
+            }
         }
-        if ($this->Bucketlist->save($bucketlist)) {
-            $connection->commit();
-        } else {
-            $connection->rollback();
-        }
-        return $this->redirect(['action' => 'collect', 'username' => $this->Auth->user('username')]);
     }
 
     /**
