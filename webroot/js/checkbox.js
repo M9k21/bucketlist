@@ -6,7 +6,7 @@ $(function () {
         $.ajax({
             type: "POST",
             datatype: 'JSON',
-            url: "/bucketlist/bucketlist/incomplete",
+            url: "/bucketlist/incomplete",
             timeout: 10000,
             data: data,
         })
@@ -30,7 +30,7 @@ $(function () {
         $.ajax({
             type: "POST",
             datatype: 'JSON',
-            url: "/bucketlist/bucketlist/complete",
+            url: "/bucketlist/complete",
             timeout: 10000,
             data: data,
         })
